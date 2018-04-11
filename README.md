@@ -1,3 +1,3 @@
 # CS3380 Final Project
 
-Created by Brian Cox and Ryan Wortman
+Created by Brian Cox and Ryan Wortmann
