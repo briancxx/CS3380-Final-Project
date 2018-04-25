@@ -58,5 +58,4 @@ Table Schema:
 
 Functions:
 
-- addTeacher()
 - loginTeacher()
