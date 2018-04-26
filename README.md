@@ -48,6 +48,8 @@ Table: grades
 
 ## ERD Diagram
 
+![ERD Diagram](docs/FinalProjectERD.png)
+
 ## CRUD
 
 Create:
