@@ -28,12 +28,14 @@ class Gradebook_model{
                 echo $_POST["login"] ;
             }
 		}
+    //handle for duplicates on add account
     
     public function check_login(){
         $login=$_POST["login"];
         $password=$_POST["password"];
+        $status=$_POST["status"];
         
-        $sql="SELECT * FROM students WHERE username='" . $login . "' AND password='" . $password . "'";
+        $sql="SELECT * FROM " .$status . " WHERE username='" . $login . "' AND password='" . $password . "'";
         echo $sql;
         if ($result = $this->mysqli->query($sql)) {
 				if ($result->num_rows == 1) {
@@ -63,10 +65,7 @@ class Gradebook_model{
 				$this->error = $this->mysqli->error;
                 echo "<p>insert failed</p>";
 			}
-
     }
-    
-    
 }
 
 //$add_grade_data = array("69", "69", "69");
