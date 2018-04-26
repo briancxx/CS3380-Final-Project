@@ -54,22 +54,22 @@ Table: grades
 
 Create:
 
--
--
+- Create students
 
 Read:
 
--
--
+- Read grades
+- Read assignments
+- Read teachers
+- Read students
 
 Update:
 
--
--
+- Update grades
 
 Delete:
 
--
--
+- Delete assignments
+- Delete grades
 
 ## Demo
