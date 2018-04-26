@@ -35,8 +35,6 @@
                 exit;
             }
 
-            // Note: given order of handling and given processOrderBy doesn't require user to be logged in
-            //...orderBy can be changed without being logged in
             $this->processOrderBy();
 
             $this->processLogout();
@@ -46,14 +44,22 @@
                     $this->handleLogin();
                     break;
                 case 'delete_grade':
+                    $this->handleRemoveGrade();
                     break;
                 case 'edit_grade':
+                    $this->handleEditGrade();
                     break;
                 case 'add_grade':
+                    $this->handleAddGrade();
                     break;
                 case 'add_assignment':
+                    $this->handleAddAssignment();
                     break;
                 case 'delete_assignment':
+                    $this->handleRemoveAssignment();
+                    break;
+                case 'add_student':
+                    $this->handleAddStudent();
                     break;
                 default:
                     $this->verifyLogin();
@@ -63,21 +69,23 @@
                 case 'loginForm':
                     print $this->views->loginFormView($this->data, $this->message);
                     break;
-                case 'taskform':
-                    print $this->views->taskFormView($this->model->getUser(), $this->data, $this->message);
+                case 'gradeForm':
+                    print $this->views->gradeFormView($this->model->getUser(), $this->data, $this->message);
                     break;
-                default: // 'gradebook'
-                    list($orderBy, $orderDirection) = $this->model->getOrdering();
-                    list($tasks, $error) = $this->model->getTasks();
-                    if ($error) {
-                        $this->message = $error;
-                    }
-                    print $this->views->taskListView($this->model->getUser(), $tasks, $orderBy, $orderDirection, $this->message);
+                case 'assignmentForm':
+                    print $this->views->assignmentFormView($this->model->getUser(), $this->data, $this->message);
+                    break;
+                case 'studentForm':
+                    print $this->views->studentFormView($this->model->getUser(), $this->data, $this->message);
+                    break;
+                default: // 'gradesList'
+                    print $this->views->gradesListView($this->model->getUser(), $this->message);
             }
         }
 
         // GRADES ---
 
+        // create grade
         private function handleAddGrade()
         {
             if (!$this->verifyLogin()) {
@@ -97,10 +105,91 @@
             }
         }
 
+        // update grade
+        private function handleEditGrade()
+        {
+            if (!$this->verifyLogin()) {
+                return;
+            }
+
+            if ($_POST['cancel']) {
+                $this->view = 'gradesList';
+                return;
+            }
+
+            $error = $this->model->edit_grade($_POST);
+            if ($error) {
+                $this->message = $error;
+                $this->view = 'gradeForm';
+                $this->data = $_POST;
+            }
+        }
+
+        // delete grade
+        private function handleRemoveGrade()
+        {
+            if (!$this->verifyLogin()) {
+                return;
+            }
+
+            if ($_POST['cancel']) {
+                $this->view = 'gradesList';
+                return;
+            }
+
+            $error = $this->model->remove_grade($_POST);
+            if ($error) {
+                $this->message = $error;
+                $this->view = 'gradeForm';
+                $this->data = $_POST;
+            }
+        }
+
         // ASSIGNMENTS ---
+
+        // create assignment
+        private function handleAddAssignment()
+        {
+            if (!$this->verifyLogin()) {
+                return;
+            }
+
+            if ($_POST['cancel']) {
+                $this->view = 'gradesList';
+                return;
+            }
+
+            $error = $this->model->add_assignment($_POST);
+            if ($error) {
+                $this->message = $error;
+                $this->view = 'assignmentForm';
+                $this->data = $_POST;
+            }
+        }
+
+        // delete assignment
+        private function handleRemoveAssignment()
+        {
+            if (!$this->verifyLogin()) {
+                return;
+            }
+
+            if ($_POST['cancel']) {
+                $this->view = 'gradesList';
+                return;
+            }
+
+            $error = $this->model->remove_assignment($_POST);
+            if ($error) {
+                $this->message = $error;
+                $this->view = 'assignmentForm';
+                $this->data = $_POST;
+            }
+        }
 
         // STUDENT ---
 
+        // create student
         private function handleAddStudent()
         {
             if (!$this->verifyLogin()) {
@@ -115,10 +204,12 @@
             $error = $this->model->add_student($_POST);
             if ($error) {
                 $this->message = $error;
-                $this->view = 'addStudentForm';
+                $this->view = 'studentForm';
                 $this->data = $_POST;
             }
         }
+
+        // TEACHER ---
 
         // LOGIN ---
 
@@ -147,7 +238,7 @@
 
             list($success, $message) = $this->model->login($type, $loginID, $password);
             if ($success) {
-                $this->view = 'gradebook';
+                $this->view = 'gradesList';
             } else {
                 $this->message = $message;
                 $this->view = 'loginForm';
