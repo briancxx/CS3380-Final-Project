@@ -10,41 +10,41 @@ For our final project, we decided to create a elementary-school gradebook applic
 
 Table: teachers
 
-#  |  Name       |  Type          |  Null  |  Default
--------------------------------------------------------
-1  |  ID         |  int           |  No    |  None
-2  |  FirstName  |  varchar(50)   |  No    |  None
-3  |  LastName   |  varchar(50)   |  No    |  None
-4  |  Username   |  varchar(50)   |  No    |  None
-5  |  Password   |  varchar(255)  |  No    |  None
+|  #  |  Name       |  Type          |  Null  |  Default  |
+|-----|-------------|----------------|--------|-----------|
+|  1  |  ID         |  int           |  No    |  None     |
+|  2  |  FirstName  |  varchar(50)   |  No    |  None     |
+|  3  |  LastName   |  varchar(50)   |  No    |  None     |
+|  4  |  Username   |  varchar(50)   |  No    |  None     |
+|  5  |  Password   |  varchar(255)  |  No    |  None     |
 
 Table: students
 
-#  |  Name       |  Type          |  Null  |  Default
--------------------------------------------------------
-1  |  ID         |  int           |  No    |  None
-2  |  FirstName  |  varchar(50)   |  No    |  None
-3  |  LastName   |  varchar(50)   |  No    |  None
-4  |  Username   |  varchar(50)   |  No    |  None
-5  |  Password   |  varchar(255)  |  No    |  None
-6  |  TeacherID  |  int           |  No    |  None
+|  #  |  Name       |  Type          |  Null  |  Default  |
+|-----|-------------|----------------|--------|-----------|
+|  1  |  ID         |  int           |  No    |  None     |
+|  2  |  FirstName  |  varchar(50)   |  No    |  None     |
+|  3  |  LastName   |  varchar(50)   |  No    |  None     |
+|  4  |  Username   |  varchar(50)   |  No    |  None     |
+|  5  |  Password   |  varchar(255)  |  No    |  None     |
+|  6  |  TeacherID  |  int           |  No    |  None     |
 
 Table: assignments
 
-#  |  Name         |  Type         |  Null  |  Default
---------------------------------------------------------
-1  |  ID           |  int          |  No    |  None
-2  |  Name         |  varchar(50)  |  No    |  None
-3  |  TotalPoints  |  int          |  No    |  None
+|  #  |  Name         |  Type         |  Null  |  Default  |
+|-----|---------------|---------------|--------|-----------|
+|  1  |  ID           |  int          |  No    |  None     |
+|  2  |  Name         |  varchar(50)  |  No    |  None     |
+|  3  |  TotalPoints  |  int          |  No    |  None     |
 
 Table: grades
 
-#  |  Name          |  Type  |  Null  |  Default
---------------------------------------------------
-1  |  ID            |  int   |  No    |  None
-2  |  StudentID     |  int   |  No    |  None
-3  |  AssignmentID  |  int   |  No    |  None
-4  |  EarnedPoints  |  int   |  No    |  None
+|  #  |  Name          |  Type  |  Null  |  Default  |
+|-----|----------------|--------|--------|-----------|
+|  1  |  ID            |  int   |  No    |  None     |
+|  2  |  StudentID     |  int   |  No    |  None     |
+|  3  |  AssignmentID  |  int   |  No    |  None     |
+|  4  |  EarnedPoints  |  int   |  No    |  None     |
 
 ## ERD Diagram
 
@@ -62,7 +62,7 @@ Read:
 
 Update:
 
-- 
+-
 -
 
 Delete:
