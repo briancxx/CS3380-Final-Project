@@ -91,14 +91,34 @@ class Gradebook_model{
                 echo "<p>insert failed</p>";
 			}   
     }
+    
+    public function add_assignment($add_assignment_data){
+        
+        $name=$add_assignment_data[0];
+        $points=$add_assignment_data[1];
+        
+        $name = $this->mysqli->real_escape_string($name);
+        $points = $this->mysqli->real_escape_string($points);
+        
+        $sql = "INSERT INTO assignments (Name,TotalPoints) VALUES ('$name', '$points')";
+        echo $sql;
+        
+        if (! $result = $this->mysqli->query($sql)) {
+				$this->error = $this->mysqli->error;
+                echo "<p>insert failed</p>";
+			}  
+        
+    }
 }
 
 //$add_grade_data = array("69", "69", "69");
-$add_student_data=array("Steve","Smith","ss","password");
-
+//$add_student_data=array("Steve","Smith","ss","password");
+$add_assignment_data=array("play in traffic","1000");
+    
 $gradebook_model=new Gradebook_model();
 $gradebook_model->check_login();
 //$gradebook_model->add_grade($add_grade_data);
-$gradebook_model->add_student($add_student_data);
+//$gradebook_model->add_student($add_student_data);
+$gradebook_model->add_assignment($add_assignment_data);
 
 ?>
