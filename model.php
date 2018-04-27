@@ -40,7 +40,10 @@ class Gradebook_model{
         if ($result = $this->mysqli->query($sql)) {
 				if ($result->num_rows == 1) {
                     echo "<p>succesful login</p>";
-
+                    $row = mysqli_fetch_row($result);
+                    $ID=$row[0];
+                    echo $ID;
+                    $_SESSION['ID'] = $ID;
 				}
 				$result->close();
 			} 
@@ -163,6 +166,8 @@ class Gradebook_model{
     
     public function viewGrades(){
         
+        echo $_SESSION['ID'];
+        
         $id_from_cookie=1;
         
         $sql="SELECT * FROM grades WHERE StudentID=" . $id_from_cookie;
@@ -194,5 +199,5 @@ $gradebook_model->check_login();
 //$gradebook_model->remove_grade($delete_grade_data);
 //$gradebook_model->remove_assignment($delete_grade_data);
 
-//$gradebook_model->viewGrades();
+$gradebook_model->viewGrades();
 ?>
