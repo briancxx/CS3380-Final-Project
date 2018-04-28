@@ -4,7 +4,7 @@ Created by Brian Cox and Ryan Wortmann
 
 ## Description
 
-For our final project, we decided to create a elementary-school gradebook application that allows teachers to enter assignments, create assignments, and add grades for their students.  Each teacher has the ability to create a login for each of their students, and one student login is assigned to one teacher.  If a teacher logs in, they will be able to see all of their students' grades; if a student logs in, they will be able to see only their grades.
+For our final project, we decided to create a elementary-school gradebook application that allows teachers to enter grades for their students.  Teachers can add new grades, edit existing grades, or delete existing grades for their students.  Each teacher creates a login for each of their students.  If a teacher logs in, they will be able to see all of their students' grades; if a student logs in, they will be able to see only their grades.
 
 ## Schema
 
