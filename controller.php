@@ -52,12 +52,6 @@
                 case 'add_grade':
                     $this->handleAddGrade();
                     break;
-                case 'add_assignment':
-                    $this->handleAddAssignment();
-                    break;
-                case 'delete_assignment':
-                    $this->handleRemoveAssignment();
-                    break;
                 case 'add_student':
                     $this->handleAddStudent();
                     break;
@@ -70,16 +64,13 @@
                     print $this->views->loginFormView($this->data, $this->message);
                     break;
                 case 'gradeForm':
-                    print $this->views->gradeFormView($this->model->getUser(), $this->data, $this->message);
-                    break;
-                case 'assignmentForm':
-                    print $this->views->assignmentFormView($this->model->getUser(), $this->data, $this->message);
+                    print $this->views->gradeFormView($this->data, $this->message);
                     break;
                 case 'studentForm':
-                    print $this->views->studentFormView($this->model->getUser(), $this->data, $this->message);
+                    print $this->views->studentFormView($this->data, $this->message);
                     break;
                 default: // 'gradesList'
-                    print $this->views->gradesListView($this->model->getUser(), $this->message);
+                    print $this->views->gradesListView($this->message);
             }
         }
 
@@ -97,7 +88,7 @@
                 return;
             }
 
-            $error = $this->model->add_grade($_POST);
+            $error = $this->model->addGrade($_POST);
             if ($error) {
                 $this->message = $error;
                 $this->view = 'gradeForm';
@@ -117,7 +108,7 @@
                 return;
             }
 
-            $error = $this->model->edit_grade($_POST);
+            $error = $this->model->editGrade($_POST);
             if ($error) {
                 $this->message = $error;
                 $this->view = 'gradeForm';
@@ -137,52 +128,10 @@
                 return;
             }
 
-            $error = $this->model->remove_grade($_POST);
+            $error = $this->model->removeGrade($_POST);
             if ($error) {
                 $this->message = $error;
                 $this->view = 'gradeForm';
-                $this->data = $_POST;
-            }
-        }
-
-        // ASSIGNMENTS ---
-
-        // create assignment
-        private function handleAddAssignment()
-        {
-            if (!$this->verifyLogin()) {
-                return;
-            }
-
-            if ($_POST['cancel']) {
-                $this->view = 'gradesList';
-                return;
-            }
-
-            $error = $this->model->add_assignment($_POST);
-            if ($error) {
-                $this->message = $error;
-                $this->view = 'assignmentForm';
-                $this->data = $_POST;
-            }
-        }
-
-        // delete assignment
-        private function handleRemoveAssignment()
-        {
-            if (!$this->verifyLogin()) {
-                return;
-            }
-
-            if ($_POST['cancel']) {
-                $this->view = 'gradesList';
-                return;
-            }
-
-            $error = $this->model->remove_assignment($_POST);
-            if ($error) {
-                $this->message = $error;
-                $this->view = 'assignmentForm';
                 $this->data = $_POST;
             }
         }
@@ -201,7 +150,7 @@
                 return;
             }
 
-            $error = $this->model->add_student($_POST);
+            $error = $this->model->addStudent($_POST);
             if ($error) {
                 $this->message = $error;
                 $this->view = 'studentForm';
@@ -222,7 +171,7 @@
 
         private function verifyLogin()
         {
-            if (! $this->model->check_login()) {
+            if (! $this->model->getStatus()) {
                 $this->view = 'loginForm';
                 return false;
             } else {
@@ -232,11 +181,7 @@
 
         private function handleLogin()
         {
-            $type = $_POST['type'];
-            $loginID = $_POST['loginid'];
-            $password = $_POST['password'];
-
-            list($success, $message) = $this->model->login($type, $loginID, $password);
+            list($success, $message) = $this->model->check_login($_POST);
             if ($success) {
                 $this->view = 'gradesList';
             } else {
