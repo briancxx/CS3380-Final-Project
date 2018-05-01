@@ -64,7 +64,7 @@ class Gradebook_model{
 			}   
     }
     
-    public function getStudentID(firstname,lastname){
+    public function getStudentID($firstname,$lastname){
         $sql="SELECT StudentID FROM student WHERE FirstName=" . $firstname . " AND LastName=" . $lastname .;
         
         if ($result = $this->mysqli->query($sql)) {
