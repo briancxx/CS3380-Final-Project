@@ -1,13 +1,12 @@
 <?php
     require('model.php');
-    require('views.php');
+    require('view.php');
 
     class Gradebook_controller
     {
         private $model;
         private $views;
 
-        private $orderBy = '';
         private $view = '';
         private $action = '';
         private $message = '';
@@ -70,7 +69,7 @@
                     print $this->views->studentFormView($this->data, $this->message);
                     break;
                 default: // 'gradesList'
-                    print $this->views->gradesListView($this->message);
+                    print $this->views->gradesListView($students, $grades, $this->message);
             }
         }
 
