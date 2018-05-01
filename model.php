@@ -240,11 +240,11 @@ class Gradebook_model{
 //$add_student_data=array("Steve","Smith","ss","password");
 //$add_assignment_data=array("play in traffic","1000");
 //$edit_grade_data=array(0,69);
-$login_data=array("login"=>"bbw2","password"=>"password","status"=>"teacher");
+//$login_data=array("login"=>"bbw2","password"=>"password","status"=>"teacher");
 //$delete_grade_data=array('play in traffic');
 
-$gradebook_model=new Gradebook_model();
-$gradebook_model->check_login($login_data);
+//$gradebook_model=new Gradebook_model();
+//$gradebook_model->check_login($login_data);
 //$gradebook_model->add_grade($add_grade_data);
 //$gradebook_model->add_student($add_student_data);
 //$gradebook_model->add_assignment($add_assignment_data);
@@ -252,5 +252,5 @@ $gradebook_model->check_login($login_data);
 //$gradebook_model->remove_grade($delete_grade_data);
 //$gradebook_model->remove_assignment($delete_grade_data);
 
-$gradebook_model->viewGrades();
+//$gradebook_model->viewGrades();
 ?>
