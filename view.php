@@ -14,7 +14,7 @@
 
       public function taskListView($students, $grades, $message)
       {
-        $body = "<h1>Gradebook</h1>"
+        $body = "<h1>Gradebook</h1>";
 
         // CREATE STUDENTS TABLE ---
 
