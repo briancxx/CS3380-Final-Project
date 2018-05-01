@@ -36,7 +36,7 @@
 
         // CREATE GRADES TABLE ---
 
-        $body .= "<table>"
+        $body .= "<table>";
 
           foreach ($grades as $grade) {
               $id = $_SESSION['ID'];
@@ -53,7 +53,7 @@
               $body .= "</tr>\n";
           }
 
-          $body .= "</table>"
+          $body .= "</table>";
 
           return $this->page($body);
       }
