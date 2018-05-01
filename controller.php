@@ -69,6 +69,8 @@
                     print $this->views->studentFormView($this->data, $this->message);
                     break;
                 default: // 'gradesList'
+                    $grades = $this->model->viewGrades();
+                    $students = $this->model->viewStudents();
                     print $this->views->gradesListView($students, $grades, $this->message);
             }
         }
