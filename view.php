@@ -14,29 +14,29 @@
 
       public function taskListView($students, $grades, $message)
       {
-        $body = "<h1>Gradebook</h1>";
+          $body = "<h1>Gradebook</h1>";
 
-        // CREATE STUDENTS TABLE ---
+          // CREATE STUDENTS TABLE ---
 
-        $body .= "<table>";
+          $body .= "<table>";
 
-        foreach ($students as $student) {
-            $id = $_SESSION['ID'];
-            $username = $student['Username'];
-            $firstName = $student['FirstName'];
-            $lastName = $student['LastName'];
+          foreach ($students as $student) {
+              $id = $_SESSION['ID'];
+              $username = $student['Username'];
+              $firstName = $student['FirstName'];
+              $lastName = $student['LastName'];
 
-            $body .= "<tr>";
-            $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='add_grade' /><input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
-            $body .= "<td>$username</td><td>$firstName</td><td>$lastName</td>";
-            $body .= "<tr>";
-        }
+              $body .= "<tr>";
+              $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='add_grade' /><input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
+              $body .= "<td>$username</td><td>$firstName</td><td>$lastName</td>";
+              $body .= "<tr>";
+          }
 
-        $body .= "</table>";
+          $body .= "</table>";
 
-        // CREATE GRADES TABLE ---
+          // CREATE GRADES TABLE ---
 
-        $body .= "<table>";
+          $body .= "<table>";
 
           foreach ($grades as $grade) {
               $id = $_SESSION['ID'];
@@ -58,19 +58,20 @@
           return $this->page($body);
       }
 
-      public function loginFormView($data = null, $message = '') {
-  			$loginID = '';
-  			if ($data) {
-  				$loginID = $data['login'];
-  			}
+      public function loginFormView($data = null, $message = '')
+      {
+          $loginID = '';
+          if ($data) {
+              $loginID = $data['login'];
+          }
 
-  			$body = "<h1>Gradebook</h1>\n";
+          $body = "<h1>Gradebook</h1>\n";
 
-  			if ($message) {
-  				$body .= "<p class='message'>$message</p>\n";
-  			}
+          if ($message) {
+              $body .= "<p class='message'>$message</p>\n";
+          }
 
-  			$body .= <<<EOT
+          $body .= <<<EOT
   <form action='index.php' method='post'>
   <input type='hidden' name='action' value='login' />
   <p>User ID<br />
@@ -82,19 +83,20 @@
   </form>
 EOT;
 
-  			return $this->page($body);
-  		}
-
-      public function gradeFormView($data, $message) {
-
+          return $this->page($body);
       }
 
-      public function studentFormView($data, $message) {
-
+      public function gradeFormView($data, $message)
+      {
       }
 
-      private function page($body) {
-  			$html = <<<EOT
+      public function studentFormView($data, $message)
+      {
+      }
+
+      private function page($body)
+      {
+          $html = <<<EOT
   <!DOCTYPE html>
   <html>
   <head>
@@ -105,7 +107,7 @@ EOT;
   $body
   </body>
   </html>
-  EOT;
-  			return $html;
-  		}
+EOT;
+          return $html;
+      }
   }
