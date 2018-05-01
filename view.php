@@ -61,7 +61,7 @@
       public function loginFormView($data = null, $message = '') {
   			$loginID = '';
   			if ($data) {
-  				$loginID = $data['loginid'];
+  				$loginID = $data['login'];
   			}
 
   			$body = "<h1>Gradebook</h1>\n";
@@ -74,12 +74,13 @@
   <form action='index.php' method='post'>
   <input type='hidden' name='action' value='login' />
   <p>User ID<br />
-    <input type="text" name="loginid" value="$loginID" placeholder="login id" maxlength="50" size="50"></p>
+    <input type="text" name="login" value="$loginID" placeholder="login id" maxlength="50" size="50"></p>
   <p>Title<br />
     <input type="password" name="password" value="" placeholder="password" maxlength="255" size="80"></p>
+    <input type="text" name="status" value="teacher"></p>
     <input type="submit" name='submit' value="Login">
   </form>
-  EOT;
+EOT;
 
   			return $this->page($body);
   		}
