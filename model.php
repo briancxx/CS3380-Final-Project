@@ -3,6 +3,7 @@
 class Gradebook_model{
     
     private $mysqli;
+    private $status_for_view;
     
     public function __construct() {
         //don't know wha tthis does
@@ -15,6 +16,14 @@ class Gradebook_model{
 				$this->mysqli->close();
 			}
 		}
+    
+    public function getStatus(){
+        return $this->status_for_view;
+    }
+    
+    public function logout(){
+        $_SESSION['status']='';
+    }
     
     private function initDatabaseConnection() {
 			require('db_credentials.php');
@@ -30,10 +39,10 @@ class Gradebook_model{
 		}
     //handle for duplicates on add account
     
-    public function check_login(){
-        $login=$_POST["login"];
-        $password=$_POST["password"];
-        $status=$_POST["status"];
+    public function check_login($login_data){
+        $login=$login_data["login"];
+        $password=$login_data["password"];
+        $status=$login_data["status"];
         
         $sql="SELECT * FROM " .$status . " WHERE Username='" . $login . "' AND Password='" . $password . "'";
         echo $sql;
@@ -44,24 +53,49 @@ class Gradebook_model{
                     $ID=$row[0];
                     echo $ID;
                     $_SESSION['ID'] = $ID;
+                    $_SESSION['status']=$status;
+                    $status_for_view=$_SESSION['status'];
 				}
 				$result->close();
-			} 
+        }
+        
         else {
                 echo "<p>login failed</p>";
 			}   
     }
     
+    public function getStudentID(firstname,lastname){
+        $sql="SELECT StudentID FROM student WHERE FirstName=" . firstname . " AND LastName=" . lastname .;
+        
+        if ($result = $this->mysqli->query($sql)) {
+            if ($result->num_rows == 1) {
+                echo "<p>succesful login</p>";
+                $row = mysqli_fetch_row($result);
+                $ID=$row[0];
+                $result->close();
+                $_SESSION["studentid"]=$ID;
+            }
+        }
+        
+        else {
+                echo "<p>could not find student</p>";
+                $_SESSION["studentid"]='';
+			}   
+    }
+    
     public function addGrade($add_grade_data){
-        $points=$add_grade_data[0];
-        $assignment_id=$add_grade_data[1];
-        $student_id=$add_grade_data[2]; 
+        
+        //change to assoicate array, not indexed
+        $points=$add_grade_data["EarnedPoints"];
+        $possible_points=$add_grade_data["PossiblePoints"];
+        $assignment_name=$add_grade_data["assigmentName"];
+        $studentid=$_SESSION["studentid"];
         
         $points = $this->mysqli->real_escape_string($points);
         $assignment_id = $this->mysqli->real_escape_string($assignment_id);
         $student_id = $this->mysqli->real_escape_string($student_id);
         
-        $sql = "INSERT INTO grades (EarnedPoints, AssignmentID, StudentID) VALUES ('$points', '$assignment_id', '$student_id')";
+        $sql = "INSERT INTO grades (EarnedPoints, PossiblePoints, AssignmentName, StudentID) VALUES ('$points', '$possiblepoints', '$assignment_name','$studentid')";
         echo $sql;
         
         if (! $result = $this->mysqli->query($sql)) {
@@ -72,16 +106,14 @@ class Gradebook_model{
     
     public function editGrade($edit_grade_data){
         
-        //$change=$_POST["change"];
-        //$studentid=$_POST["studentid"];
-        
-        $change=$edit_grade_data[0];
-        $studentid=$edit_grade_data[1];
+        $change=$edit_grade_data["change"];
+        $studentid=$edit_grade_data["student_id"];
+        $assignmentname=$edit_grade_data["asssignment_name"];
         
         $change = $this->mysqli->real_escape_string($change);
         $studentid = $this->mysqli->real_escape_string($studentid);
         
-        $sql="UPDATE grades SET EarnedPoints=" . $change . " WHERE StudentID=" . $studentid;
+        $sql="UPDATE grades SET EarnedPoints=" . $change . " WHERE StudentID=" . $studentid . "AND AssignmentName=" . $assignmentname;
         echo $sql;
         
         if (! $result = $this->mysqli->query($sql)) {
@@ -92,13 +124,12 @@ class Gradebook_model{
     
     public function removeGrade($remove_grade_data){
         
-        //$studentid=$_POST["studentid"];
-        
-        $studentid=$remove_grade_data[0];
+        $studentid=$remove_grade_data["studentid"];
+        $assignmentname=$remove_grade_data["asssignment_name"];
         
         $studentid = $this->mysqli->real_escape_string($studentid);
         
-        $sql="DELETE FROM grades WHERE StudentID=" . $studentid;
+        $sql="DELETE FROM grades WHERE StudentID=" . $studentid . "AND AssignmentName=" . $assignmentname;
         echo $sql;
         
         if (! $result = $this->mysqli->query($sql)) {
@@ -108,15 +139,11 @@ class Gradebook_model{
     }   
     
     public function addStudent($add_student_data){
-        //$firstname=$_POST["firstname"];
-        //$lastname=$_POST["lastname"];
-        //$login=$_POST["login"];
-        //$password=$_POST["password"];
-        
-        $firstname=$add_student_data[0];
-        $lastname=$add_student_data[1];
-        $login=$add_student_data[2];
-        $username=$add_student_data[3];
+
+        $firstname=$add_student_data["firstname"];
+        $lastname=$add_student_data["lastname"];
+        $login=$add_student_data["login"];
+        $username=$add_student_data["password"];
         
         $firstname = $this->mysqli->real_escape_string($firstname);
         $lastname = $this->mysqli->real_escape_string($lastname);
@@ -132,53 +159,41 @@ class Gradebook_model{
 			}   
     }
     
-    public function addAssignment($add_assignment_data){
-        
-        $name=$add_assignment_data[0];
-        $points=$add_assignment_data[1];
-        
-        $name = $this->mysqli->real_escape_string($name);
-        $points = $this->mysqli->real_escape_string($points);
-        
-        $sql = "INSERT INTO assignments (Name,TotalPoints) VALUES ('$name', '$points')";
-        echo $sql;
-        
-        if (! $result = $this->mysqli->query($sql)) {
-				$this->error = $this->mysqli->error;
-                echo "<p>insert failed</p>";
-			}     
-    }
-    
-    public function removeAssignment($remove_assignment_data){
-        
-        $assignment_name=$remove_assignment_data[0];
-        
-        $assignment_name = $this->mysqli->real_escape_string($assignment_name);
-        
-        $sql="DELETE FROM assignments WHERE Name='" . $assignment_name . "'";
-        echo $sql;
-        
-        if (! $result = $this->mysqli->query($sql)) {
-				$this->error = $this->mysqli->error;
-                echo "<p>Update failed</p>";
-			}  
-    }
-    
     public function viewGrades(){
         
+        echo $_SESSION['status'];
         echo $_SESSION['ID'];
         
-        $id_from_cookie=1;
+        //handle status
+        if ($_SESSION['status']=='teacher'){
         
-        $sql="SELECT * FROM grades WHERE StudentID=" . $id_from_cookie;
+            $sql="SELECT FirstName, LastName, AssignmentName, EarnedPoints, TotalPoints
+                FROM grades
+                INNER JOIN student ON grades.StudentID = student.ID WHERE TeacherID=" . $_SESSION['ID'];      
+        }
+        
+        elseif ($_SESSION['status']=='student'){
+            
+            $sql="SELECT AssignmentName, EarnedPoints, TotalPoints
+                FROM grades
+                INNER JOIN student ON grades.StudentID = student.ID WHERE StudentID=" . $_SESSION['ID'];
+        }
+        
+        else{
+            echo "<p>something went wrong<p>";
+        }
+        
+        echo $sql;
         
         if (! $result = $this->mysqli->query($sql)) {
 				$this->error = $this->mysqli->error;
                 echo "<p>Update failed</p>";
+                echo $this->error;
 			}
         
         else
             $task = $result->fetch_assoc();
+            //echo $task["FirstName"];
             return $task;
     }
 }
@@ -187,11 +202,11 @@ class Gradebook_model{
 //$add_student_data=array("Steve","Smith","ss","password");
 //$add_assignment_data=array("play in traffic","1000");
 //$edit_grade_data=array(0,69);
-
+$login_data=array("login"=>"bbw2","password"=>"password","status"=>"teacher");
 //$delete_grade_data=array('play in traffic');
 
 $gradebook_model=new Gradebook_model();
-$gradebook_model->check_login();
+$gradebook_model->check_login($login_data);
 //$gradebook_model->add_grade($add_grade_data);
 //$gradebook_model->add_student($add_student_data);
 //$gradebook_model->add_assignment($add_assignment_data);
