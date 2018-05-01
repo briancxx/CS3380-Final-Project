@@ -21,10 +21,10 @@
         $body .= "<table>";
 
         foreach ($students as $student) {
-            $id = '';
-            $username = '';
-            $firstName = '';
-            $lastName = '';
+            $id = $_SESSION['ID'];
+            $username = $student['Username'];
+            $firstName = $student['FirstName'];
+            $lastName = $student['LastName'];
 
             $body .= "<tr>";
             $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='add_grade' /><input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
@@ -39,17 +39,17 @@
         $body .= "<table>"
 
           foreach ($grades as $grade) {
-              $id = '';
-              $firstName = '';
-              $lastName = '';
-              $assignmentName = '';
-              $pointsEarned = '';
-              $totalPoints = '';
+              $id = $_SESSION['ID'];
+              $firstName = $grade['FirstName'];
+              $lastName = $grade['LastName'];
+              $assignmentName = $grade['AssignmentName'];
+              $earnedPoints = $grade['EarnedPoints'];
+              $totalPoints = $grade['TotalPoints'];
 
               $body .= "<tr>";
               $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='delete_grade' /><input type='hidden' name='id' value='$id' /><input type='submit' value='Delete'></form></td>";
               $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='edit_grade' /><input type='hidden' name='id' value='$id' /><input type='submit' value='Edit'></form></td>";
-              $body .= "<td>$firstName</td><td>$lastName</td><td>$assignmentName</td><td>$pointsEarned</td><td>$totalPoints</td>";
+              $body .= "<td>$firstName</td><td>$lastName</td><td>$assignmentName</td><td>$earnedPoints</td><td>$totalPoints</td>";
               $body .= "</tr>\n";
           }
 
