@@ -159,6 +159,44 @@ class Gradebook_model{
 			}   
     }
     
+    public function viewStudents(){
+        
+        echo $_SESSION['status'];
+        echo $_SESSION['ID'];
+        
+        //handle status
+        if ($_SESSION['status']=='teacher'){
+        
+            $sql="SELECT FirstName, LastName, Username
+                FROM student
+                WHERE TeacherID=" . $_SESSION['ID'];      
+        }
+        
+        elseif ($_SESSION['status']=='student'){
+            
+            $sql="SELECT FirstName, LastName, Username
+                FROM student
+                WHERE StudentID=" . $_SESSION['ID'];
+        }
+        
+        else{
+            echo "<p>something went wrong<p>";
+        }
+        
+        echo $sql;
+        
+        if (! $result = $this->mysqli->query($sql)) {
+				$this->error = $this->mysqli->error;
+                echo "<p>Update failed</p>";
+                echo $this->error;
+			}
+        
+        else
+            $task = $result->fetch_assoc();
+            //echo $task["FirstName"];
+            return $task;
+    }
+    
     public function viewGrades(){
         
         echo $_SESSION['status'];
