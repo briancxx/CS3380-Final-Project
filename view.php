@@ -12,7 +12,7 @@
       {
       }
 
-      public function taskListView($students, $grades, $message)
+      public function gradesListView($students, $grades, $message)
       {
           $body = "<h1>Gradebook</h1>";
 
