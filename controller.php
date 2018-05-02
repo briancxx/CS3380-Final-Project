@@ -29,13 +29,6 @@
 
         public function run()
         {
-            if ($error = $this->model->getError()) {
-                print $views->errorView($error);
-                exit;
-            }
-
-            $this->processOrderBy();
-
             $this->processLogout();
 
             switch ($this->action) {
