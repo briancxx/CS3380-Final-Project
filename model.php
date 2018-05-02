@@ -168,14 +168,14 @@ class Gradebook_model{
         //handle status
         if ($_SESSION['status']=='teacher'){
         
-            $sql="SELECT FirstName, LastName, Username
+            $sql="SELECT student.ID, FirstName, LastName, Username
                 FROM student
                 WHERE TeacherID=" . $_SESSION['ID'];      
         }
         
         elseif ($_SESSION['status']=='student'){
             
-            $sql="SELECT FirstName, LastName, Username
+            $sql="SELECT student.ID,FirstName, LastName, Username
                 FROM student
                 WHERE StudentID=" . $_SESSION['ID'];
         }
@@ -193,9 +193,11 @@ class Gradebook_model{
 			}
         
         else
-            $task = $result->fetch_assoc();
-            //echo $task["FirstName"];
-            return $task;
+            $tasks=array();
+            while($row = $result->fetch_assoc()){
+                array_push($tasks,$row);
+                }
+            return $tasks;
     }
     
     public function viewGrades(){
@@ -206,14 +208,14 @@ class Gradebook_model{
         //handle status
         if ($_SESSION['status']=='teacher'){
         
-            $sql="SELECT FirstName, LastName, AssignmentName, EarnedPoints, TotalPoints
+            $sql="SELECT student.ID, FirstName, LastName, AssignmentName, EarnedPoints, TotalPoints
                 FROM grades
                 INNER JOIN student ON grades.StudentID = student.ID WHERE TeacherID=" . $_SESSION['ID'];      
         }
         
         elseif ($_SESSION['status']=='student'){
             
-            $sql="SELECT AssignmentName, EarnedPoints, TotalPoints
+            $sql="SELECT student.ID, AssignmentName, EarnedPoints, TotalPoints
                 FROM grades
                 INNER JOIN student ON grades.StudentID = student.ID WHERE StudentID=" . $_SESSION['ID'];
         }
@@ -231,9 +233,11 @@ class Gradebook_model{
 			}
         
         else
-            $task = $result->fetch_assoc();
-            //echo $task["FirstName"];
-            return $task;
+            $tasks=array();
+            while($row = $result->fetch_assoc()){
+                array_push($tasks,$row);
+                }
+            return $tasks;
     }
 }
 
