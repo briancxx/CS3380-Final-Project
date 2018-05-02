@@ -55,6 +55,7 @@ class Gradebook_model{
                     $_SESSION['ID'] = $ID;
                     $_SESSION['status']=$status;
                     $status_for_view=$_SESSION['status'];
+                    return array("successful","");
 				}
 				$result->close();
         }
