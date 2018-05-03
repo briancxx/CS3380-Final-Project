@@ -26,7 +26,7 @@
               
               $body .= "<tr>";
               $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='add_grade' />
-              <input type='hidden' name='add_student' value='Add Student'>
+              <input type='submit' name='Add Student' value='Add Student' />
               <input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
               $body .= "<td>$username</td><td>$firstName</td><td>$lastName</td>";
               $body .= "<tr>";
