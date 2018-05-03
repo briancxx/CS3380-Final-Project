@@ -61,7 +61,7 @@
                 case 'studentForm':
                     print $this->views->studentFormView($this->data, $this->message);
                     break;
-                case 'addStudent':
+                case 'addStudentForm':
                     print $this->views->addStudentView();
                     break;
                 default: // 'gradesList'

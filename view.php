@@ -25,8 +25,9 @@
               $lastName = $student['LastName'];
               
               $body .= "<tr>";
-              $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='add_grade' />
-              <input type='submit' name='Add Student' value='Add Student' />
+              $body .= "<td><form action='index.php' method='get'>
+              <input type='hidden' name='action' value='add_grade' />
+              <input type='submit' name='Add Student' value='Add Student' ='index.php?view=addStudentView'/>
               <input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
               $body .= "<td>$username</td><td>$firstName</td><td>$lastName</td>";
               $body .= "<tr>";
