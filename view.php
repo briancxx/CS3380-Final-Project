@@ -25,7 +25,9 @@
               $lastName = $student['LastName'];
               
               $body .= "<tr>";
-              $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='add_grade' /><input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
+              $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='add_grade' />
+              <input type='hidden' name='add_student' value='Add Student'>
+              <input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
               $body .= "<td>$username</td><td>$firstName</td><td>$lastName</td>";
               $body .= "<tr>";
           }
@@ -82,6 +84,20 @@
   </form>
 EOT;
 
+          return $this->page($body);
+      }
+      
+      public function addStudentView(){
+          $body = "<h1>Add Student</h1>\n";
+
+          $body .= "<tr>";
+          $body .= "<td><form action='index.php' method='post'><input type='test' name='First Name'/>
+          <input type='text' name='Last Name'/>
+          <input type='text' name='username'/>
+          <input type='text' name='password'>
+          </form></td>";
+          $body .= "</tr>\n";
+          
           return $this->page($body);
       }
 
