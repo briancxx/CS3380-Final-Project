@@ -4,11 +4,11 @@ Created by Brian Cox and Ryan Wortmann
 
 ## Description
 
-For our final project, we decided to create a elementary-school gradebook application that allows teachers to enter grades for their students.  Teachers can add new grades, edit existing grades, or delete existing grades for their students.  Each teacher creates a login for each of their students.  If a teacher logs in, they will be able to see all of their students' grades; if a student logs in, they will be able to see only their grades.
+For our final project, we decided to create an elementary-school gradebook application that allows teachers to enter grades for their students.  When first accessing the site, teachers and students are both able to login with their own specific login information.  Once a teacher logs in, they are able to see all of their students and the grades they've created for their students.  They have the options of creating new grades, editing existing grades, and deleting existing grades; they are also capable of adding a new student to their class if need be.  Once that student logs in, they are able to view all of the grades that their teacher input for them.
 
 ## Schema
 
-Table: teachers
+Table: teacher
 
 |  #  |  Name       |  Type          |  Null  |  Default  |
 |-----|-------------|----------------|--------|-----------|
@@ -17,7 +17,7 @@ Table: teachers
 |  3  |  LastName   |  varchar(50)   |  No    |  None     |
 |  4  |  Password   |  varchar(255)  |  No    |  None     |
 
-Table: students
+Table: student
 
 |  #  |  Name       |  Type          |  Null  |  Default  |
 |-----|-------------|----------------|--------|-----------|
@@ -45,21 +45,21 @@ Table: grades
 
 Create:
 
-- Create students
-- Create grades
+- **Create new students:** teachers can add new students
+- **Create new grades:** teachers can add new grades for individual students
 
 Read:
 
-- Read grades
-- Read teachers
-- Read students
+- **Read existing grades:** grades are displayed from database in a table on screen
+- **Read existing teachers:** teacher data is read when logging in as teacher
+- **Read existing students:** student data is read when logging in as student, list of students displayed on teacher gradebook page
 
 Update:
 
-- Update grades
+- **Update existing grades:** teachers can add edit existing grades
 
 Delete:
 
-- Delete grades
+- **Delete existing grades:** teachers can delete existing grades
 
 ## Demo
