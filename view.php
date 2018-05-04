@@ -3,6 +3,8 @@
   {
       private $stylesheet = 'styles.css';
       private $pageTitle = 'Gradebook';
+      private $bootstrap = 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css';
+      private $font = 'https://fonts.googleapis.com/css?family=Lato';
 
       public function __construct()
       {
@@ -23,10 +25,11 @@
               $username = $student['Username'];
               $firstName = $student['FirstName'];
               $lastName = $student['LastName'];
-              
+
               $body .= "<tr>";
               $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='add_grade' />
               <input type='submit' name='Add Student' value='Add Student' />
+              <a class='logoutButton' href='index.php?logout=1'>Logout</a>
               <input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
               $body .= "<td>$username</td><td>$firstName</td><td>$lastName</td>";
               $body .= "<tr>";
@@ -45,7 +48,7 @@
               $assignmentName = $grade['AssignmentName'];
               $earnedPoints = $grade['EarnedPoints'];
               $totalPoints = $grade['TotalPoints'];
-              
+
 
               $body .= "<tr>";
               $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='delete_grade' /><input type='hidden' name='id' value='$id' /><input type='submit' value='Delete'></form></td>";
@@ -86,8 +89,9 @@ EOT;
 
           return $this->page($body);
       }
-      
-      public function addStudentView(){
+
+      public function addStudentView()
+      {
           $body = "<h1>Add Student</h1>\n";
 
           $body .= "<tr>";
@@ -97,12 +101,40 @@ EOT;
           <input type='text' name='password'>
           </form></td>";
           $body .= "</tr>\n";
-          
+
           return $this->page($body);
       }
 
-      public function gradeFormView($data, $message)
+      public function gradeFormAddView($data, $message)
       {
+          $body .= <<<EOT
+      <form action='index.php' method='post'>
+      <input type='hidden' name='action' value='add_grade' />
+      <p>Assignment Name<br />
+      <input type="text" name="assignmentName" value="" placeholder="assignment name" maxlength="50" size="50"></p>
+      <p>Points Earned<br />
+      <input type="number" name="pointsEarned" value="" placeholder="" maxlength="50" size="50"></p>
+      <input type="submit" name='submit' value="Submit">
+      </form>
+EOT;
+
+          return $this->page($body);
+      }
+
+      public function gradeFormEditView($data, $message)
+      {
+          $body .= <<<EOT
+      <form action='index.php' method='post'>
+      <input type='hidden' name='action' value='edit_grade' />
+      <p>Assignment Name<br />
+      <input type="text" name="assignmentName" value="" placeholder="assignment name" maxlength="50" size="50"></p>
+      <p>Points Earned<br />
+      <input type="number" name="pointsEarned" value="" placeholder="" maxlength="50" size="50"></p>
+      <input type="submit" name='submit' value="Submit">
+      </form>
+EOT;
+
+          return $this->page($body);
       }
 
       public function studentFormView($data, $message)
@@ -112,16 +144,20 @@ EOT;
       private function page($body)
       {
           $html = <<<EOT
-  <!DOCTYPE html>
-  <html>
-  <head>
-  <title>{$this->pageTitle}</title>
-  <link rel="stylesheet" type="text/css" href="{$this->stylesheet}">
-  </head>
-  <body>
-  $body
-  </body>
-  </html>
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <title>{$this->pageTitle}</title>
+        <link rel="stylesheet" type="text/css" href="{$this->stylesheet}">
+        <link rel="stylesheet" type="text/css" href="{$this->bootstrap}">
+        <link rel="stylesheet" type="text/css" href="{$this->font}">
+        </head>
+        <body>
+        <div class="container">
+        $body
+        </div>
+        </body>
+        </html>
 EOT;
           return $html;
       }

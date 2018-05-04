@@ -55,8 +55,11 @@
                 case 'loginForm':
                     print $this->views->loginFormView($this->data, $this->message);
                     break;
-                case 'gradeForm':
-                    print $this->views->gradeFormView($this->data, $this->message);
+                case 'gradeFormAdd':
+                    print $this->views->gradeFormAddView($this->data, $this->message);
+                    break;
+                case 'gradeFormEdit':
+                    print $this->views->gradeFormEditView($this->data, $this->message);
                     break;
                 case 'studentForm':
                     print $this->views->studentFormView($this->data, $this->message);
@@ -88,7 +91,7 @@
             $error = $this->model->addGrade($_POST);
             if ($error) {
                 $this->message = $error;
-                $this->view = 'gradeForm';
+                $this->view = 'gradeFormAdd';
                 $this->data = $_POST;
             }
         }
@@ -108,7 +111,7 @@
             $error = $this->model->editGrade($_POST);
             if ($error) {
                 $this->message = $error;
-                $this->view = 'gradeForm';
+                $this->view = 'gradeFormEdit';
                 $this->data = $_POST;
             }
         }
@@ -128,7 +131,7 @@
             $error = $this->model->removeGrade($_POST);
             if ($error) {
                 $this->message = $error;
-                $this->view = 'gradeForm';
+                $this->view = 'gradesList';
                 $this->data = $_POST;
             }
         }
@@ -163,12 +166,13 @@
         {
             if ($_GET['logout']) {
                 $this->model->logout();
+            } else {
             }
         }
 
         private function verifyLogin()
         {
-            if (! $this->model->getStatus()) {
+            if (!$this->model->getStatus()) {
                 $this->view = 'loginForm';
                 return false;
             } else {
