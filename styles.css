@@ -1,0 +1,16 @@
+html, body {
+  font-family: 'Lato', sans-serif;
+}
+
+h1 {
+  padding: 20px 0px;
+}
+
+h2 {
+  padding: 15px 0px;
+}
+
+.actionlinks {
+  float:right;
+  text-align:right;
+}
