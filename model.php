@@ -143,17 +143,15 @@ class Gradebook_model
 
     public function addStudent($add_student_data)
     {
-        $firstname=$add_student_data["firstname"];
-        $lastname=$add_student_data["lastname"];
-        $login=$add_student_data["login"];
-        $username=$add_student_data["password"];
+        $firstname=$add_student_data["addStudentFirstName"];
+        $lastname=$add_student_data["addStudentLastName"];
+        $password=$add_student_data["addStudentpassword"];
 
         $firstname = $this->mysqli->real_escape_string($firstname);
         $lastname = $this->mysqli->real_escape_string($lastname);
-        $login = $this->mysqli->real_escape_string($login);
         $password = $this->mysqli->real_escape_string($password);
 
-        $sql = "INSERT INTO students (FirstName,LastName,Username,Password) VALUES ('$firstname', '$lastname', '$login','$password')";
+        $sql = "INSERT INTO students (FirstName,LastName,Password) VALUES ('$firstname', '$lastname','$password')";
         echo $sql;
 
         if (! $result = $this->mysqli->query($sql)) {
