@@ -46,17 +46,17 @@ Table: grades
 Create:
 
 - **Create new students:** teachers can add new students
-- **Create new grades:** teachers can add new grades for individual students
+- **Create new grades:** teachers can add new grades for existing students
 
 Read:
 
 - **Read existing grades:** grades are displayed from database in a table on screen
 - **Read existing teachers:** teacher data is read when logging in as teacher
-- **Read existing students:** student data is read when logging in as student, list of students displayed on teacher gradebook page
+- **Read existing students:** student data is read when logging in as student; list of students displayed on teacher gradebook page
 
 Update:
 
-- **Update existing grades:** teachers can add edit existing grades
+- **Update existing grades:** teachers can edit existing grades
 
 Delete:
 
