@@ -167,11 +167,11 @@ class Gradebook_model
 
         //handle status
         if ($_SESSION['status']=='teacher') {
-            $sql="SELECT student.ID, FirstName, LastName, Username
+            $sql="SELECT student.ID, FirstName, LastName
                 FROM student
                 WHERE TeacherID=" . $_SESSION['ID'];
         } elseif ($_SESSION['status']=='student') {
-            $sql="SELECT student.ID,FirstName, LastName, Username
+            $sql="SELECT student.ID,FirstName, LastName
                 FROM student
                 WHERE StudentID=" . $_SESSION['ID'];
         } else {
