@@ -49,7 +49,7 @@ class Gradebook_model
         $password=$login_data["password"];
         $status=$login_data["status"];
 
-        $sql="SELECT * FROM " .$status . " WHERE Username='" . $login . "' AND Password='" . $password . "'";
+        $sql="SELECT * FROM " .$status . " WHERE ID='" . $login . "' AND Password='" . $password . "'";
         echo $sql;
         if ($result = $this->mysqli->query($sql)) {
             if ($result->num_rows == 1) {
