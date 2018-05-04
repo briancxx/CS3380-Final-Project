@@ -63,3 +63,5 @@ Delete:
 - **Delete existing grades:** teachers can delete existing grades
 
 ## Demo
+
+[Gradebook Demonstration Video](https://youtu.be/HA0lV2CGDf4)
