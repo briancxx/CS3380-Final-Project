@@ -18,20 +18,19 @@
       {
           $body = "<h1>Gradebook</h1>";
 
+          $body .= "<td><a href='index.php?view=addStudent'>Add Student</a>
+          <a class='logoutButton' href='index.php?logout=1'>Logout</a>";
+
           $body .= "<table>";
 
           foreach ($students as $student) {
               $id = $student['ID'];
-              $username = $student['Username'];
               $firstName = $student['FirstName'];
               $lastName = $student['LastName'];
 
               $body .= "<tr>";
-              $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='add_grade' />
-              <input type='submit' name='Add Student' value='Add Student' />
-              <a class='logoutButton' href='index.php?logout=1'>Logout</a>
-              <input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
-              $body .= "<td>$username</td><td>$firstName</td><td>$lastName</td>";
+              $body .= "<input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
+              $body .= "<td>$id</td><td>$firstName</td><td>$lastName</td>";
               $body .= "<tr>";
           }
 
@@ -94,13 +93,17 @@ EOT;
       {
           $body = "<h1>Add Student</h1>\n";
 
-          $body .= "<tr>";
-          $body .= "<td><form action='index.php' method='post'><input type='test' name='First Name'/>
-          <input type='text' name='Last Name'/>
-          <input type='text' name='username'/>
-          <input type='text' name='password'>
-          </form></td>";
-          $body .= "</tr>\n";
+          $body .= "<form action='index.php' method='post'>
+          <p>First Name<br/>
+            <input type='test' name='addStudentFirstName'/></p>
+          <p>Last Name<br/>
+            <input type='text' name='addStudentLastName'/></p>
+          <p>Username<br/>
+            <input type='text' name='addStudentUsername'/></p>
+          <p>Password<br/>
+            <input type='text' name='addStudentPassword'></p>
+          <input type='submit' name='submit' value='Submit' />
+          </form>";
 
           return $this->page($body);
       }

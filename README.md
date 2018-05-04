@@ -15,8 +15,7 @@ Table: teachers
 |  1  |  ID         |  int           |  No    |  None     |
 |  2  |  FirstName  |  varchar(50)   |  No    |  None     |
 |  3  |  LastName   |  varchar(50)   |  No    |  None     |
-|  4  |  Username   |  varchar(50)   |  No    |  None     |
-|  5  |  Password   |  varchar(255)  |  No    |  None     |
+|  4  |  Password   |  varchar(255)  |  No    |  None     |
 
 Table: students
 
@@ -25,9 +24,8 @@ Table: students
 |  1  |  ID         |  int           |  No    |  None     |
 |  2  |  FirstName  |  varchar(50)   |  No    |  None     |
 |  3  |  LastName   |  varchar(50)   |  No    |  None     |
-|  4  |  Username   |  varchar(50)   |  No    |  None     |
-|  5  |  Password   |  varchar(255)  |  No    |  None     |
-|  6  |  TeacherID  |  int           |  No    |  None     |
+|  4  |  Password   |  varchar(255)  |  No    |  None     |
+|  5  |  TeacherID  |  int           |  No    |  None     |
 
 Table: grades
 
