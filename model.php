@@ -67,7 +67,7 @@ class Gradebook_model
         }
     }
 
-    public function getStudentID($firstname, $lastname)
+    public function getStudentID_old($firstname, $lastname)
     {
         $sql="SELECT StudentID FROM student WHERE FirstName=" . $firstname . " AND LastName=" . $lastname ;
 
@@ -84,55 +84,83 @@ class Gradebook_model
             $_SESSION["studentid"]='';
         }
     }
-
-    public function addGrade($add_grade_data)
+/*
+    public function getStudentName($get_data)
     {
-
+        $sql="SELECT FirstName LastName FROM student WHERE ID=" . $get_data['id'];
+        
+        $name=array();
+        
+        if ($result = $this->mysqli->query($sql)) {
+            if ($result->num_rows == 1) {
+                echo "<p>succesful login</p>";
+                $row = mysqli_fetch_row($result);
+                $ID=$row[0];
+                $result->close();
+                $_SESSION["studentid"]=$ID;
+                
+                $row = $result->fetch_assoc();
+                $names=array_push($name,$row);
+                
+                return $names;
+            }
+        } else {
+            echo "<p>could not find student</p>";
+            $_SESSION["studentid"]='';
+        }
+    }*/
+    
+    public function addGrade($add_grade_data,$get_data)
+    {
+        echo $get_data["id"];
         //change to assoicate array, not indexed
         $points=$add_grade_data["EarnedPoints"];
         $possible_points=$add_grade_data["PossiblePoints"];
-        $assignment_name=$add_grade_data["assigmentName"];
-        $studentid=$_SESSION["studentid"];
+        $assignment_name=$add_grade_data["assignmentName"];
+        $student_id=$add_grade_data["addGradeID"];
 
         $points = $this->mysqli->real_escape_string($points);
         $assignment_id = $this->mysqli->real_escape_string($assignment_id);
         $student_id = $this->mysqli->real_escape_string($student_id);
 
-        $sql = "INSERT INTO grades (EarnedPoints, PossiblePoints, AssignmentName, StudentID) VALUES ('$points', '$possiblepoints', '$assignment_name','$studentid')";
+        $sql = "INSERT INTO grades (EarnedPoints, TotalPoints, AssignmentName, StudentID) VALUES ('$points', '$possible_points', '$assignment_name','$student_id')";
         echo $sql;
 
         if (! $result = $this->mysqli->query($sql)) {
             $this->error = $this->mysqli->error;
+            echo $this->error;
             echo "<p>insert failed</p>";
         }
     }
 
     public function editGrade($edit_grade_data)
     {
-        $change=$edit_grade_data["change"];
-        $studentid=$edit_grade_data["student_id"];
-        $assignmentname=$edit_grade_data["asssignment_name"];
+        print_r($edit_grade_data);
+        $id=$edit_grade_data["editGradeID"];
+        $possible=$edit_grade_data["PossiblePoints"];
+        $earned=$edit_grade_data["EarnedPoints"];
+        $assignmentname=$edit_grade_data["assignmentName"];
 
-        $change = $this->mysqli->real_escape_string($change);
-        $studentid = $this->mysqli->real_escape_string($studentid);
+        $id = $this->mysqli->real_escape_string($id);
+        $possible = $this->mysqli->real_escape_string($possible);
+        $earned = $this->mysqli->real_escape_string($earned);
+        $assignmentname = $this->mysqli->real_escape_string($assignmentname);
 
-        $sql="UPDATE grades SET EarnedPoints=" . $change . " WHERE StudentID=" . $studentid . "AND AssignmentName=" . $assignmentname;
+        $sql="UPDATE grades SET EarnedPoints='" . $earned . "', TotalPoints= '" . $possible . "', AssignmentName='" . $assignmentname .  "' WHERE ID='" . $id . "'";
         echo $sql;
 
         if (! $result = $this->mysqli->query($sql)) {
             $this->error = $this->mysqli->error;
+            echo $this->error;
             echo "<p>Update failed</p>";
         }
     }
 
-    public function removeGrade($remove_grade_data)
+    public function removeGrade($data)
     {
-        $studentid=$remove_grade_data["studentid"];
-        $assignmentname=$remove_grade_data["asssignment_name"];
-
-        $studentid = $this->mysqli->real_escape_string($studentid);
-
-        $sql="DELETE FROM grades WHERE StudentID=" . $studentid . "AND AssignmentName=" . $assignmentname;
+        $assignmentid= $this->mysqli->real_escape_string($data['deleteid']);
+        
+        $sql="DELETE FROM grades WHERE ID=" . $assignmentid;
         echo $sql;
 
         if (! $result = $this->mysqli->query($sql)) {
@@ -142,20 +170,23 @@ class Gradebook_model
     }
 
     public function addStudent($add_student_data)
-    {
+    {   
+        $teacherid=$_SESSION["ID"];
         $firstname=$add_student_data["addStudentFirstName"];
         $lastname=$add_student_data["addStudentLastName"];
-        $password=$add_student_data["addStudentpassword"];
+        $password=$add_student_data["addStudentPassword"];
 
+        $teacherid = $this->mysqli->real_escape_string($teacherid);
         $firstname = $this->mysqli->real_escape_string($firstname);
         $lastname = $this->mysqli->real_escape_string($lastname);
         $password = $this->mysqli->real_escape_string($password);
 
-        $sql = "INSERT INTO students (FirstName,LastName,Password) VALUES ('$firstname', '$lastname','$password')";
+        $sql = "INSERT INTO student (FirstName,LastName,Password,TeacherID) VALUES ('$firstname', '$lastname','$password','$teacherid')";
         echo $sql;
 
         if (! $result = $this->mysqli->query($sql)) {
             $this->error = $this->mysqli->error;
+            echo $this->error;
             echo "<p>insert failed</p>";
         }
     }
@@ -171,9 +202,9 @@ class Gradebook_model
                 FROM student
                 WHERE TeacherID=" . $_SESSION['ID'];
         } elseif ($_SESSION['status']=='student') {
-            $sql="SELECT student.ID,FirstName, LastName
+            $sql="SELECT ID,FirstName, LastName
                 FROM student
-                WHERE StudentID=" . $_SESSION['ID'];
+                WHERE ID=" . $_SESSION['ID'];
         } else {
             echo "<p>something went wrong<p>";
         }
@@ -200,11 +231,11 @@ class Gradebook_model
 
         //handle status
         if ($_SESSION['status']=='teacher') {
-            $sql="SELECT student.ID, FirstName, LastName, AssignmentName, EarnedPoints, TotalPoints
+            $sql="SELECT grades.ID, FirstName, LastName, AssignmentName, EarnedPoints, TotalPoints
                 FROM grades
                 INNER JOIN student ON grades.StudentID = student.ID WHERE TeacherID=" . $_SESSION['ID'];
         } elseif ($_SESSION['status']=='student') {
-            $sql="SELECT student.ID, AssignmentName, EarnedPoints, TotalPoints
+            $sql="SELECT grades.ID, AssignmentName, EarnedPoints, TotalPoints
                 FROM grades
                 INNER JOIN student ON grades.StudentID = student.ID WHERE StudentID=" . $_SESSION['ID'];
         } else {

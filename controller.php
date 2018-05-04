@@ -64,7 +64,7 @@
                 case 'studentForm':
                     print $this->views->studentFormView($this->data, $this->message);
                     break;
-                case 'addStudentForm':
+                case 'addStudent':
                     print $this->views->addStudentView();
                     break;
                 default: // 'gradesList'
@@ -88,7 +88,7 @@
                 return;
             }
 
-            $error = $this->model->addGrade($_POST);
+            $error = $this->model->addGrade($_POST,$_GET);
             if ($error) {
                 $this->message = $error;
                 $this->view = 'gradeFormAdd';
@@ -153,7 +153,7 @@
             $error = $this->model->addStudent($_POST);
             if ($error) {
                 $this->message = $error;
-                $this->view = 'studentForm';
+                $this->view = 'addStudent';
                 $this->data = $_POST;
             }
         }

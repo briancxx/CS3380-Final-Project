@@ -29,8 +29,8 @@
               $lastName = $student['LastName'];
 
               $body .= "<tr>";
-              $body .= "<td>$ID</td><td>$firstName</td><td>$lastName</td>";
-              $body .= "<input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
+              //$body .= "<input type='hidden' name='id' value='$id' /><input type='submit' value='Add Grade'></form></td>";
+              $body .= "<a href='index.php?view=gradeFormAdd&id=$id'> Add Grade </a>";
               $body .= "<td>$id</td><td>$firstName</td><td>$lastName</td>";
               $body .= "<tr>";
           }
@@ -42,7 +42,7 @@
           $body .= "<table>";
 
           foreach ($grades as $grade) {
-              $id = $student['ID'];
+              $id = $grade['ID'];
               $firstName = $grade['FirstName'];
               $lastName = $grade['LastName'];
               $assignmentName = $grade['AssignmentName'];
@@ -51,8 +51,8 @@
 
 
               $body .= "<tr>";
-              $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='delete_grade' /><input type='hidden' name='id' value='$id' /><input type='submit' value='Delete'></form></td>";
-              $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='edit_grade' /><input type='hidden' name='id' value='$id' /><input type='submit' value='Edit'></form></td>";
+              $body .= "<td><form action='index.php' method='post'><input type='hidden' name='action' value='delete_grade' /><input type='hidden' name='deleteid' value='$id' /><input type='submit' value='Delete'></form></td>";
+              $body .= "<td><a href='index.php?view=gradeFormEdit&id=$id&assignmentName=$assignmentName&earnedPoints=$earnedPoints&totalPoints=$totalPoints' > Edit Grade</a></td>";
               $body .= "<td>$firstName</td><td>$lastName</td><td>$assignmentName</td><td>$earnedPoints</td><td>$totalPoints</td>";
               $body .= "</tr>\n";
           }
@@ -95,16 +95,17 @@ EOT;
           $body = "<h1>Add Student</h1>\n";
 
           $body .= "<form action='index.php' method='post'>
+          <input type='hidden' name='action' value='add_student'>
           <p>First Name<br/>
             <input type='test' name='addStudentFirstName'/></p>
           <p>Last Name<br/>
             <input type='text' name='addStudentLastName'/></p>
-          <p>Username<br/>
-            <input type='text' name='addStudentUsername'/></p>
           <p>Password<br/>
             <input type='text' name='addStudentPassword'></p>
           <input type='submit' name='submit' value='Submit' />
           </form>";
+          
+          
 
           return $this->page($body);
       }
@@ -114,10 +115,13 @@ EOT;
           $body .= <<<EOT
       <form action='index.php' method='post'>
       <input type='hidden' name='action' value='add_grade' />
+      <input type='hidden' name='addGradeID' value='{$_GET['id']}' />
       <p>Assignment Name<br />
       <input type="text" name="assignmentName" value="" placeholder="assignment name" maxlength="50" size="50"></p>
       <p>Points Earned<br />
-      <input type="number" name="pointsEarned" value="" placeholder="" maxlength="50" size="50"></p>
+      <input type="number" name="EarnedPoints" value="" placeholder="" maxlength="50" size="50"></p>
+      <p>Points Possible<br />
+      <input type="number" name="PossiblePoints" value="" placeholder="" maxlength="50" size="50"></p>
       <input type="submit" name='submit' value="Submit">
       </form>
 EOT;
@@ -130,10 +134,13 @@ EOT;
           $body .= <<<EOT
       <form action='index.php' method='post'>
       <input type='hidden' name='action' value='edit_grade' />
+      <input type='hidden' name='editGradeID' value='{$_GET['id']}' />
       <p>Assignment Name<br />
-      <input type="text" name="assignmentName" value="" placeholder="assignment name" maxlength="50" size="50"></p>
+      <input type="text" name="assignmentName" value="{$_GET["assignmentName"]}" placeholder="assignment name" maxlength="50" size="50"></p>
       <p>Points Earned<br />
-      <input type="number" name="pointsEarned" value="" placeholder="" maxlength="50" size="50"></p>
+      <input type="number" name="EarnedPoints" value="{$_GET["earnedPoints"]}" placeholder="" maxlength="50" size="50"></p>
+      <p>Points Possible<br />
+      <input type="number" name="PossiblePoints" value="{$_GET["totalPoints"]}" placeholder="" maxlength="50" size="50"></p>
       <input type="submit" name='submit' value="Submit">
       </form>
 EOT;
